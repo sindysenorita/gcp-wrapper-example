@@ -1,0 +1,10 @@
+[service]
+name="sample-app"
+
+[logger]
+level = "debug" # https://github.com/rs/zerolog#leveled-logging
+output = "gcp_logging" # stdout | gcp_logging
+
+[gcp]
+project_id = ""
+service_account_path = "service_account.json"
