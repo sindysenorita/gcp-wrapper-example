@@ -1,6 +1,6 @@
 # GCP Wrapper Example
 
-Usage example for https://github.com/sindysenorita/gcp-wrapper
+Usage example for https://github.com/sindysenorita/gcplogger
 
 ## How to Run 
 prepare the GCP service account key, name it as "service_account.json" (or whatever name/filepath in config.toml)
