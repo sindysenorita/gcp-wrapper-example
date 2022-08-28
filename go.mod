@@ -6,7 +6,7 @@ require (
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/pelletier/go-toml v1.9.5
 	github.com/rs/zerolog v1.27.0
-	github.com/sindysenorita/gcp-wrapper v0.0.0-20220824021749-83e319cfa860
+	github.com/sindysenorita/gcplogger v0.0.0-20220828224127-8265f6f3bf71
 )
 
 require (
@@ -20,6 +20,7 @@ require (
 	github.com/googleapis/gax-go/v2 v2.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
+	github.com/sindysenorita/gcp-wrapper v0.0.0-20220824021749-83e319cfa860 // indirect
 	go.opencensus.io v0.23.0 // indirect
 	golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e // indirect
 	golang.org/x/oauth2 v0.0.0-20220822191816-0ebed06d0094 // indirect

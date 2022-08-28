@@ -6,8 +6,9 @@ import (
 	"fmt"
 	"github.com/pelletier/go-toml"
 	"github.com/rs/zerolog"
-	"github.com/sindysenorita/gcp-wrapper"
 	"github.com/sindysenorita/gcp-wrapper-example/api"
+	"github.com/sindysenorita/gcplogger"
+	"io"
 
 	"log"
 
@@ -47,13 +48,16 @@ func main() {
 
 	var zlog zerolog.Logger
 	logCfg := cfg.Logger
+	logLvl, err := zerolog.ParseLevel(logCfg.Level)
+	if err != nil {
+		log.Fatalf("invalid zerolog log level: %v", err)
+	}
 	switch logCfg.Output {
 	case "gcp_logging":
-		zerologGCP, err := gcp_wrapper.NewZerolog(
+		gcpWriter, err := gcplogger.NewZerolog(
 			rootCtx,
 			cfg.Service.Name,
-			cfg.Logger.Level,
-			gcp_wrapper.GCPConfig{
+			gcplogger.GCPConfig{
 				ProjectID:          cfg.GCP.ProjectID,
 				ServiceAccountPath: cfg.GCP.ServiceAccountPath,
 			},
@@ -61,13 +65,12 @@ func main() {
 		if err != nil {
 			log.Fatal(fmt.Errorf("failed to create zerolog gcp writer: %w", err))
 		}
-		defer zerologGCP.Flush()
-		zlog = zerologGCP.Logger
-	case "stdout":
-		zlog, err = newStdoutZerolog(cfg.Service.Name, cfg.Logger)
+		zlog = setupZerolog(cfg.Service.Name, logLvl, gcpWriter)
 		if err != nil {
-			log.Fatal(fmt.Errorf("failed to create zerolog console: %w", err))
+			log.Fatal(fmt.Errorf("failed to create zerolog gcp writer: %w", err))
 		}
+	case "stdout":
+		zlog = setupZerolog(cfg.Service.Name, logLvl, zerolog.ConsoleWriter{Out: os.Stdout})
 	default:
 		log.Fatal("invalid log output value")
 	}
@@ -112,17 +115,11 @@ func loadConfigFromFile(filePath string) (Config, error) {
 	return cfg, nil
 }
 
-func newStdoutZerolog(serviceName string, cfg LoggerConfig) (zerolog.Logger, error) {
-	writer := zerolog.ConsoleWriter{Out: os.Stdout}
-	logLvl, err := zerolog.ParseLevel(cfg.Level)
-	if err != nil {
-		return zerolog.Nop(), fmt.Errorf("invalid zerolog log level: %w", err)
-	}
-	zlog := zerolog.New(writer).
-		Level(logLvl).
+func setupZerolog(serviceName string, level zerolog.Level, writer io.Writer) zerolog.Logger {
+	return zerolog.New(writer).
+		Level(level).
 		With().
 		Str("service", serviceName).
 		Timestamp().
 		Logger()
-	return zlog, nil
 }
