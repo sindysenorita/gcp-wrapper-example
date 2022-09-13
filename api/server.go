@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog"
+	"log"
 	"net/http"
 	"time"
 )
@@ -82,6 +83,7 @@ func HealthCheck(
 		logger.Info().Msg("info")
 		logger.Warn().Msg("warn")
 		logger.Error().Err(fmt.Errorf("error")).Msg("error")
+		log.Println("stdlog println")
 		w.WriteHeader(http.StatusOK)
 	}
 }

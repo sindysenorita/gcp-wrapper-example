@@ -210,6 +210,8 @@ github.com/sindysenorita/gcp-wrapper v0.0.0-20220824021749-83e319cfa860 h1:AWCmq
 github.com/sindysenorita/gcp-wrapper v0.0.0-20220824021749-83e319cfa860/go.mod h1:jCEIb6etK8C19J8ZWGXKCxCrFTskSDPWMHbodvf0L6Q=
 github.com/sindysenorita/gcplogger v0.0.0-20220828224127-8265f6f3bf71 h1:w/A5T1l1bnuFpqU8rVcb2axna+uoCJzevf/fo+E1m+A=
 github.com/sindysenorita/gcplogger v0.0.0-20220828224127-8265f6f3bf71/go.mod h1:2+sCZZc3+zC9rlryOL4lr9kv73R6vDQ/LMjyTMs/TOY=
+github.com/sindysenorita/gcplogger v0.0.1-alpha h1:zhl7MzRcnhoH6UkQpoGa/duKvMdyLjIXf79u/utKI9g=
+github.com/sindysenorita/gcplogger v0.0.1-alpha/go.mod h1:2+sCZZc3+zC9rlryOL4lr9kv73R6vDQ/LMjyTMs/TOY=
 github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72/go.mod h1:JwIasOWyU6f++ZhiEuf87xNszmSA2myDM2Kzu9HwQUA=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=

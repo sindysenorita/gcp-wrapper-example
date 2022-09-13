@@ -52,16 +52,14 @@ func main() {
 	if err != nil {
 		log.Fatalf("invalid zerolog log level: %v", err)
 	}
+	gcpConfig := gcplogger.GCPConfig{
+		ProjectID:          cfg.GCP.ProjectID,
+		ServiceAccountPath: cfg.GCP.ServiceAccountPath,
+	}
+	// setup zerolog
 	switch logCfg.Output {
 	case "gcp_logging":
-		gcpWriter, err := gcplogger.NewZerolog(
-			rootCtx,
-			cfg.Service.Name,
-			gcplogger.GCPConfig{
-				ProjectID:          cfg.GCP.ProjectID,
-				ServiceAccountPath: cfg.GCP.ServiceAccountPath,
-			},
-		)
+		gcpWriter, err := gcplogger.NewZerolog(rootCtx, cfg.Service.Name, gcpConfig)
 		if err != nil {
 			log.Fatal(fmt.Errorf("failed to create zerolog gcp writer: %w", err))
 		}
@@ -75,9 +73,26 @@ func main() {
 		log.Fatal("invalid log output value")
 	}
 
+	// TODO: try example if stdlib log is customized into a leveled logging: https://www.honeybadger.io/blog/golang-logging/
+	// can we convert log flags into structured logging?
+
+	// setup stdlib log
+	switch logCfg.Output {
+	case "gcp_logging":
+		gcpWriter, err := gcplogger.NewStdLog(rootCtx, cfg.Service.Name, gcpConfig)
+		if err != nil {
+			log.Fatal(fmt.Errorf("failed to create stdlog gcp writer: %w", err))
+		}
+		log.SetOutput(gcpWriter)
+	case "stdout":
+		log.SetOutput(os.Stdout)
+	default:
+		log.Fatal("invalid log output value")
+	}
+
 	s := api.NewServer(apiCfg, zlog)
 	err = s.Run(rootCtx)
-	if err != http.ErrServerClosed {
+	if err != nil && err != http.ErrServerClosed {
 		fmt.Printf("error server: %v\n", err)
 	}
 }

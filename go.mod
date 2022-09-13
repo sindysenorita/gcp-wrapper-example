@@ -6,7 +6,7 @@ require (
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/pelletier/go-toml v1.9.5
 	github.com/rs/zerolog v1.27.0
-	github.com/sindysenorita/gcplogger v0.0.0-20220828224127-8265f6f3bf71
+	github.com/sindysenorita/gcplogger v0.0.1-alpha
 )
 
 require (
